@@ -85,6 +85,13 @@ def new_person():
     logging.info("Successfully inserted person")
     return {"id": person_id}
 
+#  get all persons
+@app.route('/persons', methods=['GET'])
+def get_persons():
+    logging.info('Request Received: Persons')
+    g = setup_graph()
+    return [{**node.__dict__, **properties} for node in g.V()
+            for properties in g.V(node).valueMap()]
 
 #  Update/get person details
 @app.route('/person/{person_id}', methods=['PUT', 'GET'])
